@@ -1,0 +1,288 @@
+/* HomePage.css */
+
+/*--------------------------
+  Hero Section
+---------------------------*/
+section.hero-section {
+  background-color: #15273a;
+  padding: 60px 0;
+}
+
+.hero-section h1 {
+  font-weight: 700;
+  font-size: 3.5rem;
+  line-height: 1.2;
+  color: #f8f9fa;
+}
+
+.hero-section h1 .text-primary {
+  color: #0d6efd;
+}
+
+.hero-section p.lead {
+  font-size: 1.25rem;
+  margin-bottom: 1.5rem;
+  color: #f8f9fa;
+}
+
+.hero-section .btn-primary,
+.hero-section .btn-outline-primary {
+  padding: 0.75rem 2rem;
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+/* Carousel in Hero */
+.carousel .carousel-item img {
+  height: 400px;
+  object-fit: cover;
+  border-radius: 0.5rem;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+.carousel-caption {
+  background-color: rgba(0, 0, 0, 0.55);
+  border-radius: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  bottom: 20px !important;
+}
+
+.carousel-caption h5 {
+  color: #f8f9fa !important;
+}
+
+/*--------------------------
+  Features Section
+---------------------------*/
+section.features-section {
+  padding: 3rem 0;
+}
+
+.features-section h2 {
+  font-weight: 700;
+  color: #0d6efd;
+  margin-bottom: 3rem;
+}
+
+.features-section .card {
+  border: none;
+  border-radius: 0.5rem;
+  box-shadow: 0 0.25rem 1rem rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.features-section .card:hover {
+  transform: translateY(-10px);
+}
+
+.features-section .card-img-top {
+  height: 150px;
+  object-fit: cover;
+  border-top-left-radius: 0.5rem;
+  border-top-right-radius: 0.5rem;
+}
+
+.features-section .card-title {
+  color: #0dcaf0;
+  font-weight: 600;
+  font-size: 1.25rem;
+}
+
+/*--------------------------
+  Collector Spotlight
+---------------------------*/
+section.collector-spotlight {
+  background-color: #f8f9fa;
+  padding: 3rem 0;
+}
+
+.collector-spotlight h2 {
+  font-weight: 700;
+  margin-bottom: 3rem;
+}
+
+.collector-spotlight img {
+  max-height: 360px;
+  object-fit: cover;
+  border-radius: 0.5rem;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+blockquote.blockquote {
+  font-style: italic;
+  font-size: 1.25rem;
+  color: #e5e5e5;
+}
+
+blockquote.blockquote footer {
+  font-weight: 600;
+  margin-top: 0.5rem;
+}
+/* Increase the height of the carousel images for Trending Figures */
+section.bg-dark .carousel-item img {
+  height: 400px; /* or more, adjust as needed */
+  object-fit: contain;
+  border-radius: 15px;
+}
+
+/* Optional: add padding top and bottom to the section for more spacing */
+section.bg-dark {
+  padding-top: 80px !important;
+  padding-bottom: 80px !important;
+}
+
+/* Make carousel caption font slightly bigger and more readable */
+section.bg-dark .carousel-caption h5 {
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+section.bg-dark .carousel-caption p {
+  font-size: 1.2rem;
+}
+
+/*--------------------------
+  Footer
+---------------------------*/
+footer {
+  background: linear-gradient(135deg, #0a1f44, #15273a);
+  color: #f0f4f8;
+  padding: 40px 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  box-shadow: 0 -3px 10px rgba(0, 0, 0, 0.4);
+  border-top: 3px solid #0d6efd;
+}
+
+footer p {
+  margin: 0;
+  font-size: 1rem;
+  color: #f0f4f8;
+}
+
+.footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+}
+
+.footer-text {
+  flex: 1 1 300px;
+}
+
+.footer-links {
+  flex: 1 1 200px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 20px;
+}
+
+.footer-links a {
+  color: #a8c1ff;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1.1rem;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.footer-links a:hover {
+  color: #0d6efd;
+  transform: translateY(-3px);
+}
+
+/*--------------------------
+  Newsletter Section
+---------------------------*/
+.newsletter-section {
+  background: url('https://images.unsplash.com/photo-1606813902794-c2f85b556d59?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80') center/cover no-repeat;
+  padding: 100px 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+}
+
+.newsletter-card {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 1.5rem;
+  padding: 40px 30px;
+  max-width: 700px;
+  margin: auto;
+  text-align: center;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+}
+
+.newsletter-card h3 {
+  font-size: 2.4rem;
+  font-weight: 800;
+  margin-bottom: 0.8rem;
+  color: #ffffff;
+}
+
+.newsletter-card p {
+  font-size: 1.2rem;
+  color: #e5e5e5;
+  margin-bottom: 2rem;
+}
+
+.newsletter-card form {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.newsletter-card input[type="email"] {
+  padding: 1rem 1.2rem;
+  border-radius: 8px;
+  border: none;
+  outline: none;
+  font-size: 1rem;
+  width: 100%;
+  max-width: 350px;
+  background-color: rgba(255, 255, 255, 0.9);
+  color: #222;
+}
+
+.newsletter-card input::placeholder {
+  color: #888;
+}
+
+.newsletter-card button {
+  padding: 1rem 2rem;
+  background-color: #ff6f00;
+  color: #fff;
+  border: none;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 12px rgba(255, 111, 0, 0.4);
+}
+
+.newsletter-card button:hover {
+  background-color: #e65c00;
+  transform: translateY(-2px);
+}
+
+/* Responsive */
+@media (max-width: 576px) {
+  .newsletter-card {
+    padding: 30px 20px;
+  }
+
+  .newsletter-card form {
+    flex-direction: column;
+  }
+
+  .newsletter-card input,
+  .newsletter-card button {
+    width: 100%;
+  }
+}

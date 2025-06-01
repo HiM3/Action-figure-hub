@@ -1,0 +1,19 @@
+{
+  "dependencies": {
+    "concurrently": "^9.1.2"
+  },
+  "name": "ecommerce",
+  "version": "1.0.0",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    "backend":"cd Authentication && npm start",
+    "frontend":"cd Authentication_testing && npm run dev",
+    "dev": "concurrently \"npm run frontend\" \"npm run backend\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "description": ""
+}
