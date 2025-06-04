@@ -21,9 +21,14 @@ app.use(cors({
   credentials: true
 }));
 app.use(cookieParser());
+app.get('/',(req,res)=>{
+  return res.send("API Working")
+})
 
 // Serve static files from uploads directory
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
+
 
 // Database connection
 const dbConfig = require("./config/db");
