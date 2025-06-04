@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { FaStar, FaEdit, FaEye, FaTrash } from "react-icons/fa";
 import "../assets/style.css";
 
-const API_URL = "https://682604ee397e48c91314a719.mockapi.io/figures";
+const API_URL = `${import.meta.env.VITE_API_URL}/products/all`;
 
 const ActionFigureList = () => {
   const [figures, setFigures] = useState([]);
@@ -13,43 +13,75 @@ const ActionFigureList = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    const controller = new AbortController();
     setLoading(true);
-    fetch(API_URL)
-      .then((res) => res.json())
-      .then((data) => {
-        if (Array.isArray(data)) {
-          setFigures(data);
+    setError(null);
+
+    fetch(`${API_URL}`, { 
+      signal: controller.signal,
+      headers: {
+        'Accept': 'application/json'
+      }
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error("Failed to fetch figures");
+        return res.json();
+      })
+      .then((res) => {
+        if (res.success && Array.isArray(res.data)) {
+          setFigures(res.data);
         } else {
           setFigures([]);
           setError("Failed to load figures properly.");
         }
         setLoading(false);
       })
-      .catch(() => {
-        setError("Failed to load figures.");
-        setLoading(false);
+      .catch((err) => {
+        if (err.name !== "AbortError") {
+          setError("Failed to load figures. Please try again later.");
+          setLoading(false);
+        }
       });
+
+    return () => controller.abort();
   }, []);
 
   const handleDelete = (id) => {
     if (window.confirm("Are you sure you want to delete this figure?")) {
-      fetch(`${API_URL}/${id}`, { method: "DELETE" })
-        .then(() => setFigures((prev) => prev.filter((f) => f.id !== id)))
-        .catch(console.error);
+      fetch(`${API_URL}/${id}`, { 
+        method: "DELETE",
+        headers: {
+          'Accept': 'application/json'
+        }
+      })
+        .then((res) => {
+          if (!res.ok) throw new Error("Failed to delete figure");
+          return res.json();
+        })
+        .then((res) => {
+          if (res.success) {
+            setFigures((prev) => prev.filter((f) => f._id !== id));
+          } else {
+            throw new Error(res.message || "Failed to delete figure");
+          }
+        })
+        .catch((err) => {
+          alert(err.message || "Failed to delete figure. Please try again.");
+        });
     }
   };
 
   const handleEdit = (figure) => {
-    window.location.href = `/edit-figure/${figure.id}`;
+    window.location.href = `/edit-figure/${figure._id}`;
   };
 
   const handleView = (figure) => {
-    window.location.href = `/figure-details/${figure.id}`;
+    window.location.href = `/figure-details/${figure._id}`;
   };
 
   const filteredFigures = Array.isArray(figures)
     ? figures
-        .filter((f) => f.name.toLowerCase().includes(search.toLowerCase()))
+        .filter((f) => f.title.toLowerCase().includes(search.toLowerCase()))
         .sort((a, b) =>
           sortOrder === "asc" ? a.price - b.price : b.price - a.price
         )
@@ -59,7 +91,8 @@ const ActionFigureList = () => {
     return (
       <main className="list-page-main-content loading-state">
         <div className="list-container text-center">
-          <h2 className="loading-message">Loading action figures...</h2>
+          <div className="loading-spinner primary-text-color" role="status" aria-hidden="true"></div>
+          <h2 className="loading-message mt-3-custom">Loading action figures...</h2>
         </div>
       </main>
     );
@@ -69,7 +102,13 @@ const ActionFigureList = () => {
     return (
       <main className="list-page-main-content error-state">
         <div className="list-container text-center">
-          <h2 className="error-message">{error}</h2>
+          <h2 className="error-message danger-text-color">{error}</h2>
+          <button 
+            className="btn-custom outline-primary-button mt-3-custom"
+            onClick={() => window.location.reload()}
+          >
+            Try Again
+          </button>
         </div>
       </main>
     );
@@ -111,7 +150,7 @@ const ActionFigureList = () => {
         ) : (
           <section className="figure-grid">
             {filteredFigures.map((figure) => (
-              <article key={figure.id} className="figure-card-col">
+              <article key={figure._id} className="figure-card-col">
                 <div
                   className="figure-card"
                   tabIndex={0}
@@ -125,15 +164,15 @@ const ActionFigureList = () => {
                   }}
                 >
                   <Link
-                    to={`/figure-details/${figure.id}`}
+                    to={`/figure-details/${figure._id}`}
                     className="card-link-wrapper"
-                    aria-label={`View details of ${figure.name}`}
+                    aria-label={`View details of ${figure.title}`}
                   >
                     <div className="figure-image-container">
                       {figure.image ? (
                         <img
-                          src={figure.image}
-                          alt={`Image of ${figure.name}`}
+                          src={`${import.meta.env.VITE_API_URL}/uploads/${figure.image}`}
+                          alt={`Image of ${figure.title}`}
                           className="figure-image"
                           loading="lazy"
                         />
@@ -143,8 +182,9 @@ const ActionFigureList = () => {
                     </div>
 
                     <div className="figure-card-content">
-                      <h5 className="figure-name">{figure.name}</h5>
+                      <h5 className="figure-name">{figure.title}</h5>
                       <p className="figure-price">${Number(figure.price).toFixed(2)}</p>
+                      <p className="figure-series muted-text">{figure.anime_name || "N/A"}</p>
                       <div className="figure-rating" aria-label="Rating: 4 out of 5 stars">
                         {[...Array(5)].map((_, i) => (
                           <FaStar
@@ -172,7 +212,7 @@ const ActionFigureList = () => {
                     </button>
                     <button
                       className="custom-button outline-danger-button icon-button"
-                      onClick={() => handleDelete(figure.id)}
+                      onClick={() => handleDelete(figure._id)}
                     >
                       <FaTrash /> Delete
                     </button>

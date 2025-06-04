@@ -5,7 +5,7 @@ import { Helmet } from "react-helmet";
 import { FaHeart, FaRegHeart, FaCartPlus } from "react-icons/fa";
 import "../assets/style.css"; // Import custom styles
 
-const API_URL = "https://682604ee397e48c91314a719.mockapi.io/figures";
+const API_URL = `${import.meta.env.VITE_API_URL}/products/all`;
 
 const FigureDetails = () => {
   const { id } = useParams();
@@ -26,13 +26,22 @@ const FigureDetails = () => {
     setLoading(true);
     setError(null);
 
-    fetch(`${API_URL}/${id}`, { signal: controller.signal })
+    fetch(`${API_URL}/${id}`, { 
+      signal: controller.signal,
+      headers: {
+        'Accept': 'application/json'
+      }
+    })
       .then((res) => {
         if (!res.ok) throw new Error("Figure not found");
         return res.json();
       })
-      .then((data) => {
-        setFigure(data);
+      .then((res) => {
+        if (res.success && res.data) {
+          setFigure(res.data);
+        } else {
+          throw new Error(res.message || "Failed to fetch figure details");
+        }
         setLoading(false);
       })
       .catch((err) => {
@@ -58,7 +67,7 @@ const FigureDetails = () => {
   };
 
   const handleAddToCart = () => {
-    alert(`${quantity} x ${figure.name} added to cart!`);
+    alert(`${quantity} x ${figure.title} added to cart!`);
     // Replace with real cart logic as needed
   };
 
@@ -91,7 +100,7 @@ const FigureDetails = () => {
         >
           {error}
           <div className="mt-3-custom">
-            <Link to="/action-figures" className="btn-custom outline-primary-button">
+            <Link to="/products" className="btn-custom outline-primary-button">
               ← Back to List
             </Link>
           </div>
@@ -99,18 +108,37 @@ const FigureDetails = () => {
       </>
     );
 
+  if (!figure) {
+    return (
+      <>
+        {/* <Navbar /> */}
+        <main
+          className="details-page-main-content error-state text-center danger-text-color fs-5-custom fw-semibold-custom"
+          aria-live="assertive"
+        >
+          Figure not found
+          <div className="mt-3-custom">
+            <Link to="/products" className="btn-custom outline-primary-button">
+              ← Back to List
+            </Link>
+          </div>
+        </main>
+      </>
+    );
+  }
+
   return (
     <>
       <Helmet>
         <title>
-          {figure ? `${figure.name} | Action Figure Details` : "Loading..."}
+          {figure ? `${figure.title} | Action Figure Details` : "Loading..."}
         </title>
       </Helmet>
 
       {/* <Navbar /> */}
       <main className="details-page-main-content">
         <div className="details-container">
-          <Link to="/action-figures" className="btn-custom outline-secondary-button mb-4-custom shadow-button">
+          <Link to="/products" className="btn-custom outline-secondary-button mb-4-custom shadow-button">
             ← Back to List
           </Link>
 
@@ -133,8 +161,8 @@ const FigureDetails = () => {
               >
                 {figure.image ? (
                   <img
-                    src={figure.image}
-                    alt={figure.name}
+                    src={`${import.meta.env.VITE_API_URL}/uploads/${figure.image}`}
+                    alt={figure.title}
                     className="figure-image-details"
                     loading="lazy"
                   />
@@ -147,7 +175,7 @@ const FigureDetails = () => {
             {/* Details */}
             <div className="figure-details-content" style={{ color: "#222", textAlign: "left" }}> {/* Keep inline color/text-align if specific */} 
               <h1 className="figure-name-details fw-bold-custom mb-4-custom" style={{ color: "#2c3e50" }}> {/* Keep specific color */} 
-                {figure.name}
+                {figure.title}
               </h1>
 
               <button
@@ -163,8 +191,8 @@ const FigureDetails = () => {
               </button>
 
               <p className="figure-series fs-5-custom mb-2-custom">
-                <strong>Series / Franchise: </strong>
-                <span className="muted-text">{figure.series || "N/A"}</span>
+                <strong>Anime Name: </strong>
+                <span className="muted-text">{figure.anime_name || "N/A"}</span>
               </p>
 
               <p
