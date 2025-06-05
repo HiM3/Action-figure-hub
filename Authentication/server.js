@@ -18,7 +18,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(
   cors({
-    origin: "https://action-figure-hub-wbgq.vercel.app",
+    origin: ["https://action-figure-hub-wbgq.vercel.app"],
     credentials: true,
   })
 );
