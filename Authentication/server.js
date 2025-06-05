@@ -6,8 +6,7 @@ const path = require("path");
 
 // Routes
 const authRoutes = require("./routes/auth.routes");
-const productRoutes = require('./routes/product.routes');
-
+const productRoutes = require("./routes/product.routes");
 
 // Load environment variables
 dotenv.config();
@@ -17,18 +16,19 @@ const app = express();
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors({
-  credentials: true
-}));
+app.use(
+  cors({
+    origin: "https://action-figure-hub-wbgq.vercel.app/",
+    credentials: true,
+  })
+);
 app.use(cookieParser());
-app.get('/',(req,res)=>{
-  return res.send("API Working")
-})
+app.get("/", (req, res) => {
+  return res.send("API Working");
+});
 
 // Serve static files from uploads directory
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-
-
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // Database connection
 const dbConfig = require("./config/db");
@@ -36,7 +36,7 @@ dbConfig();
 
 // Routes
 app.use("/auth", authRoutes);
-app.use('/products', productRoutes);
+app.use("/products", productRoutes);
 
 // Start server
 const PORT = process.env.PORT || 5000;
