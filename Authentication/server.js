@@ -20,7 +20,6 @@ app.use(
   cors({
     origin: [
       "https://action-figure-hub-wbgq.vercel.app",
-      "http://localhost:5173",
     ],
     credentials: true,
   })
